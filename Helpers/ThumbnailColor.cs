@@ -34,6 +34,18 @@ public class ThumbnailColor : IEquatable<ThumbnailColor>
     /// Gets a black color (RGBA: 0,0,0,255).
     /// </summary>
     public static ThumbnailColor Black => new(0, 0, 0, 255);
+    /// <summary>
+    /// Gets a red color (RGBA: 255,0,0,255).
+    /// </summary>
+    public static ThumbnailColor Red => new(255, 0, 0, 255);
+    /// <summary>
+    /// Gets a green color (RGBA: 0,255,0,255).
+    /// </summary>
+    public static ThumbnailColor Green => new(0, 255, 0, 255);
+    /// <summary>
+    /// Gets a blue color (RGBA: 0,0,255,255).
+    /// </summary>
+    public static ThumbnailColor Blue => new(0, 0, 255, 255);
 
     /// <summary>
     /// Initializes a new instance of <see cref="ThumbnailColor"/>.
@@ -86,6 +98,54 @@ public class ThumbnailColor : IEquatable<ThumbnailColor>
             throw new FormatException("Invalid hex code format. Expected hex formats: RRGGBB or AARRGGBB.");
         }
     }
+
+    /// <summary>
+    /// Tries to parse a hex string to a <see cref="ThumbnailColor"/>. Returns true if successful.
+    /// </summary>
+    /// <param name="hex">Hex color string.</param>
+    /// <param name="color">Parsed color if successful, otherwise null.</param>
+    /// <returns>True if parsing succeeded, otherwise false.</returns>
+    public static bool TryParse(string hex, out ThumbnailColor? color)
+    {
+        color = null;
+        if (string.IsNullOrWhiteSpace(hex)) return false;
+        hex = hex.TrimStart('#');
+        try
+        {
+            if (hex.Length == 6)
+            {
+                byte r = byte.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
+                byte g = byte.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
+                byte b = byte.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
+                color = new ThumbnailColor(r, g, b);
+                return true;
+            }
+            else if (hex.Length == 8)
+            {
+                byte a = byte.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
+                byte r = byte.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
+                byte g = byte.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
+                byte b = byte.Parse(hex.Substring(6, 2), NumberStyles.HexNumber);
+                color = new ThumbnailColor(r, g, b, a);
+                return true;
+            }
+        }
+        catch { }
+        return false;
+    }
+
+    /// <summary>
+    /// Creates a <see cref="ThumbnailColor"/> from an ImageSharp Rgba32 value.
+    /// </summary>
+    /// <param name="rgba">The Rgba32 value.</param>
+    /// <returns>A new <see cref="ThumbnailColor"/> instance.</returns>
+    public static ThumbnailColor FromRgba32(Rgba32 rgba) => new ThumbnailColor(rgba.R, rgba.G, rgba.B, rgba.A);
+
+    /// <summary>
+    /// Implicitly converts a <see cref="ThumbnailColor"/> to an ImageSharp Rgba32 value.
+    /// </summary>
+    /// <param name="color">The ThumbnailColor instance.</param>
+    public static implicit operator Rgba32(ThumbnailColor color) => new Rgba32(color.R, color.G, color.B, color.A);
 
     /// <summary>
     /// Converts this color to an ImageSharp Rgba32 value.
