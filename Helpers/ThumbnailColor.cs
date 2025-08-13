@@ -83,7 +83,7 @@ public class ThumbnailColor : IEquatable<ThumbnailColor>
         }
         else
         {
-            throw new FormatException("Invalid hec code format. Expecten hex formats: RRGGBB or AARRGGBB.");
+            throw new FormatException("Invalid hex code format. Expected hex formats: RRGGBB or AARRGGBB.");
         }
     }
 

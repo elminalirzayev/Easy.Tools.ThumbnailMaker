@@ -60,15 +60,20 @@ public sealed class Watermark
         int margin = 8,
         string fontFamily = "Arial",
         ThumbnailColor? color = null
-    ) => new Watermark
+    )
     {
-        Text = text,
-        FontSize = size,
-        Opacity = opacity,
-        Position = position,
-        Margin = margin,
-        FontFamily = fontFamily,
-        Color = color ?? new ThumbnailColor(255, 255, 255, (byte)(opacity * 255))
-    };
+        if (opacity < 0f || opacity > 1f)
+            throw new ArgumentOutOfRangeException(nameof(opacity), "Opacity must be between 0 and 1.");
+        return new Watermark
+        {
+            Text = text,
+            FontSize = size,
+            Opacity = opacity,
+            Position = position,
+            Margin = margin,
+            FontFamily = fontFamily,
+            Color = color ?? new ThumbnailColor(255, 255, 255, (byte)(opacity * 255))
+        };
+    }
 }
 
