@@ -139,8 +139,20 @@ await Thumbnail.MakeAsync(input, output, opts);
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
----
+### Third-Party Dependencies
 
+This package uses the following Six Labors libraries:
+- SixLabors.ImageSharp
+- SixLabors.Fonts
+- SixLabors.ImageSharp.Drawing
+
+Six Labors libraries are licensed under the **Six Labors Split License**:
+- **Apache 2.0** for open-source or small revenue projects (< $1M/year)
+- **Commercial License** required for other use cases
+
+More information: [Six Labors Pricing & Licensing](https://sixlabors.com/pricing/)
+
+---
 ## Contributing
 
 Contributions and feedback are welcome! Please start by opening an issue.
