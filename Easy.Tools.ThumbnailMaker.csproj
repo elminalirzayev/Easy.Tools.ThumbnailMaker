@@ -29,7 +29,7 @@
 		<Company>Easy Code Tools</Company>
 		<Copyright>Copyright © Elmin Alirzayev 2025</Copyright>
 		<Description>Easy.Tools.ThumbnailMaker is a lightweight and flexible .NET library for creating thumbnails, resizing images, and adding customizable text watermarks with support for multiple resize modes and image formats.</Description>
-		<PackageTags>thumbnail; image-processing; watermark; image-resize; dotnet; .net6; imagesharp; imaging</PackageTags>
+		<PackageTags>thumbnail; image-processing; watermark; image-resize; dotnet; .net; imagesharp; imaging</PackageTags>
 		<RepositoryUrl>https://github.com/elminalirzayev/Easy.Tools.ThumbnailMaker</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
