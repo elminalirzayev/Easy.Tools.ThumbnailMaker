@@ -6,7 +6,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-
 		<!-- Deterministic + SourceLink -->
 		<Deterministic>true</Deterministic>
 		<DebugType>portable</DebugType>
@@ -24,7 +23,8 @@
 		<AssemblyTitle>Easy.Tools.ThumbnailMaker</AssemblyTitle>
 		<AssemblyName>Easy.Tools.ThumbnailMaker</AssemblyName>
 		<PackageId>Easy.Tools.ThumbnailMaker</PackageId>
-		<Version>1.0.1</Version>
+		<Version>1.0.2</Version>
+		<PackageIcon>icon.png</PackageIcon>
 		<Authors>Elmin Alirzayev</Authors>
 		<Company>Easy Code Tools</Company>
 		<Copyright>Copyright © Elmin Alirzayev 2025</Copyright>
@@ -38,17 +38,21 @@
 		<PackageReleaseNotes>-</PackageReleaseNotes>
 
 		<!-- Build -->
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="README.md">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="icon.png">
 			<Pack>true</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
