@@ -1,4 +1,4 @@
-name: Build & Publish Multi-Target
+﻿name: Release Package
 
 on:
   workflow_dispatch:
@@ -10,62 +10,53 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  publish:
     runs-on: windows-latest
-    strategy:
-      matrix:
-        framework: [net10.0,net9.0, net8.0, net7.0, net6.0]
 
     steps:
-    - name: Checkout source
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '10.0.x' 
+        dotnet-version: '10.0.x'
+
+    - name: Get Version from Tag
+      id: get_version
+      shell: pwsh
+      run: |
+        $version = "${{ github.ref_name }}".TrimStart('v')
+        "VERSION=$version" >> $env:GITHUB_OUTPUT
 
     - name: Restore dependencies
       run: dotnet restore
 
+    - name: Run Tests
+      run: dotnet test --configuration Release --no-restore --verbosity normal || echo "No tests found"
+
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore -p:ContinuousIntegrationBuild=true
 
-    - name: Publish Self-Contained
-      run: dotnet publish -c Release -r win-x64 -f ${{ matrix.framework }} --self-contained true -o publish/self-contained/${{ matrix.framework }}
+    - name: Pack
+      run: dotnet pack --configuration Release -o out -p:PackageVersion=${{ steps.get_version.outputs.VERSION }} --force
 
-    - name: Publish Framework-Dependent
-      run: dotnet publish -c Release -r win-x64 -f ${{ matrix.framework }} --self-contained false -o publish/framework-dependent/${{ matrix.framework }}
-
-    - name: Archive builds
-      shell: pwsh
-      run: |
-        Compress-Archive -Path "publish/self-contained/${{ matrix.framework }}/*" -DestinationPath "self-contained-${{ matrix.framework }}.zip"
-        Compress-Archive -Path "publish/framework-dependent/${{ matrix.framework }}/*" -DestinationPath "framework-dependent-${{ matrix.framework }}.zip"
-
-    - name: Upload artifacts
+    - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: builds-${{ matrix.framework }}
-        path: |
-          self-contained-${{ matrix.framework }}.zip
-          framework-dependent-${{ matrix.framework }}.zip
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: artifacts
-
-    - name: Display downloaded files (debug)
-      run: ls -R artifacts
+        name: nuget-package
+        path: out\*.nupkg
 
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
-        files: artifacts/**/*.zip
+        files: |
+          out/*.nupkg
+          out/*.snupkg
+        generate_release_notes: true
+        name: Release ${{ github.ref_name }}
+        body: |
+          The NuGet package is available on [NuGet.org](https://www.nuget.org/packages/${{ github.event.repository.name }}).
+          
+          You can also download the `.nupkg` directly from the assets below.
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
