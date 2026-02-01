@@ -40,7 +40,7 @@ dotnet add package Easy.Tools.ThumbnailMaker
 ### Simple thumbnail creation
 
 ```csharp
-using ThumbnailMakers;
+using ThumbnailMaker;
 
 // Input and output file paths
 await using var input = File.OpenRead("test.jpeg");
@@ -58,7 +58,7 @@ var opts = new ThumbnailOptions(320, 320)
 {
     Mode = ThumbnailResizeMode.Cover,
     Output = OutputFormat.Jpeg(85),
-    Watermark = Watermark.TextMark("© ACME", size: 18, opacity: 100f, color: red)
+    Watermark = Watermark.TextMark("© ACME", size: 18, opacity: 0.9f, color: red)
 
 };
 
