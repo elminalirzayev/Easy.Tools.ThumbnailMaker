@@ -153,9 +153,10 @@ Six Labors libraries are licensed under the **Six Labors Split License**:
 More information: [Six Labors Pricing & Licensing](https://sixlabors.com/pricing/)
 
 ---
+
 ## Contributing
 
-Contributions and feedback are welcome! Please start by opening an issue.
+Contributions and suggestions are welcome. Please open an issue or submit a pull request.
 
 ---
 
@@ -165,6 +166,11 @@ For questions, contact us via elmin.alirzayev@gmail.com or GitHub.
 
 ---
 
-© Elmin Alirzayev 2025 / Easy Code Tools
+## License
 
+This project is licensed under the MIT License.
+
+---
+
+© 2025 Elmin Alirzayev / Easy Code Tools
 
